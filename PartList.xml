@@ -1,0 +1,260 @@
+<List>
+	<Engins>
+		<FuelEngine>
+			<Part
+				ID="1"
+				Category1="Engin"
+				Category2="FuelEngine"
+				Name="LV-1 Ant Liquid Fuel Engine"
+				TotalMass="0.02"
+				DryMass="0.02"
+				SpecificImpulseA="80"
+				SpecificImpulseS="315"
+			/>
+			<Part
+				ID="2"
+				Category1="Engin"
+				Category2="FuelEngine"
+				Name="48-7S Spark Liquid Fuel Engine"
+				TotalMass="0.1"
+				DryMass="0.1"
+				SpecificImpulseA="270"
+				SpecificImpulseS="300"
+			/>
+			<Part
+				ID="3"
+				Category1="Engin"
+				Category2="FuelEngine"
+				Name="LV-909 Terrier Liquid Fuel Engine"
+				TotalMass="0.5"
+				DryMass="0.5"
+				SpecificImpulseA="85"
+				SpecificImpulseS="345"
+			/>
+			<Part
+				ID="4"
+				Category1="Engin"
+				Category2="FuelEgine"
+				Name="LV-T30 Reliant Liquid Fuel Engine"
+				TotalMass="1.25"
+				DryMass="1.25"
+				SpecificImpulseA="280"
+				SpecificImpulseS="300"
+			/>
+			<Part
+				ID="5"
+				Category1="Engin"
+				Category2="FuelEgine"
+				Name="LV-T45 Swivel Liquid Fuel Engine"
+				TotalMass="1.5"
+				DryMass="1.5"
+				SpecificImpulseA="270"
+				SpecificImpulseS="320"
+			/>
+			<Part ID="6"
+				Category1="Engin"
+				Category2="FuelEgine"
+				Name="LV-N Nerv Atomic Rocket Motor"
+				TotalMass="3"
+				DryMass="3"
+				SpecificImpulseA="185"
+				SpecificImpulseS="800"
+			/>
+			<Part
+				ID="7"
+				Category1="Engin"
+				Category2="FuelEgine"
+				Name="T-1 Toroidal Aerospike Liquid Fuel Engine"
+				TotalMass="1.5"
+				DryMass="1.5"
+				SpecificImpulseA="290"
+				SpecificImpulseS="340"
+			/>
+			<Part
+				ID="8"
+				Category1="Engin"
+				Category2="FuelEgine"
+				Name="CR-7 R.A.P.I.E.R. Engine"
+				TotalMass="2"
+				DryMass="2"
+				SpecificImpulseA="275"
+				SpecificImpulseS="305"
+			/>
+			<Part
+				ID="9"
+				Category1="Engin"
+				Category2="FuelEgine"
+				Name="S3 KS-25 Vector Liquid Fuel Engine"
+				TotalMass="4"
+				DryMass="4"
+				SpecificImpulseA="295"
+				SpecificImpulseS="315"
+			/>
+			<Part
+				ID="10"
+				Category1="Engin"
+				Category2="Fuelngine"
+				Name="RE-L10 Poodle Liquid Fuel Engine"
+				TotalMass="1.75"
+				DryMass="1.75"
+				SpecificImpulseA="85"
+				SpecificImpulseS="350"
+			/>
+			<Part
+				ID="11"
+				Category1="Engin"
+				Category2="Fuelngine"
+				Name="RE-I5 Skipper Liquid Fuel Engine"
+				TotalMass="3"
+				DryMass="3"
+				SpecificImpulseA="280"
+				SpecificImpulseS="320"
+			/>
+			<Part
+				ID="12"
+				Category1="Engin"
+				Category2="Fuelngine"
+				Name="RE-M3 Mainsail Liquid Engine"
+				TotalMass="6"
+				DryMass="6"
+				SpecificImpulseA="285"
+				SpecificImpulseS="310"
+			/>
+			<Part
+				ID="13"
+				Category1="Engin"
+				Category2="Fuelngine"
+				Name="LFB KR-1x2 Twin-Boar Liquid Fuel Engine"
+				TotalMass="42"
+				DryMass="10"
+				SpecificImpulseA="280"
+				SpecificImpulseS="300"
+			/>
+			<Part
+				ID="14"
+				Category1="Engin"
+				Category2="Fuelngine"
+				Name="Kerbodyne KR-2L+ Rhino Liquid Fuel Engine"
+				TotalMass="8.5"
+				DryMass="8.5"
+				SpecificImpulseA="170"
+				SpecificImpulseS="340"
+			/>
+			<Part
+				ID="15"
+				Category1="Engin"
+				Category2="Fuelngine"
+				Name="S3 KS-25x4 Mammoth Liquid Fuel Engine"
+				TotalMass="15"
+				DryMass="15"
+				SpecificImpulseA="295"
+				SpecificImpulseS="315"
+			/>
+			<Part
+				ID="16"
+				Category1="Engin"
+				Category2="Fuelngine"
+				Name="LV-1R Spider Liquid Fuel Engine"
+				TotalMass="0.02"
+				DryMass="0.02"
+				SpecificImpulseA="260"
+				SpecificImpulseS="290"
+			/>
+			<Part
+				ID="17"
+				Category1="Engin"
+				Category2="Fuelngine"
+				Name="24-77 Twitch Liquid Fuel Engine"
+				TotalMass="0.09"
+				DryMass="0.09"
+				SpecificImpulseA="250"
+				SpecificImpulseS="290"
+			/>
+			<Part
+				ID="18"
+				Category1="Engin"
+				Category2="Fuelngine"
+				Name="Mk-55 Thud Liquid Fuel Engine"
+				TotalMass="0.9"
+				DryMass="0.9"
+				SpecificImpulseA="275"
+				SpecificImpulseS="305"
+			/>
+			<Part
+				ID="19"
+				Category1="Engin"
+				Category2="Fuelngine"
+				Name="O-10 Puff MonoPropellant Fuel Engine"
+				TotalMass="0.09"
+				DryMass="0.09"
+				SpecificImpulseA="120"
+				SpecificImpulseS="250"
+			/>
+		</FuelEngine>
+		<FuelBooster>
+
+			<Part
+				ID="1"
+				Category1="Engin"
+				Category2="FuelBoster"
+				Name="Sepratron I"
+				TotalMass="0.0725"
+				DryMass="0.0125"
+				SpecificImpulseA="118"
+				SpecificImpulseS="154"
+			/>
+			<Part
+				ID="2"
+				Category1="Engin"
+				Category2="FuelBoster"
+				Name="RT-5 Solid Fuel Booster"
+				TotalMass="1.2"
+				DryMass="0.45"
+				SpecificImpulseA="150"
+				SpecificImpulseS="240"
+			/>
+			<Part
+				ID="3"
+				Category1="Engin"
+				Category2="FuelBoster"
+				Name="RT-10 Solid Fuel Booster"
+				TotalMass="3"
+				DryMass="0.75"
+				SpecificImpulseA="150"
+				SpecificImpulseS="162"
+			/>
+			<Part
+				ID="4"
+				Category1="Engin"
+				Category2="FuelBoster"
+				Name="Rockomax BACC Solid Fuel Booster"
+				TotalMass="6"
+				DryMass="1.5"
+				SpecificImpulseA="165"
+				SpecificImpulseS="180"
+			/>
+			<Part
+				ID="5"
+				Category1="Engin"
+				Category2="FuelBoster"
+				Name="S1 SRB-KD25k"
+				TotalMass="23.25"
+				DryMass="4.5"
+				SpecificImpulseA="170"
+				SpecificImpulseS="190"
+			/>
+		</FuelBooster>
+		<IonEngine>
+			<Part
+				ID="1"
+				Category1="Engin"
+				Category2="IonEnine"
+				Name="PB-Ion Electric Propulsion System"
+				TotalMass="0.25"
+				DryMass="0.25"
+				SpecificImpulseA="100"
+				SpecificImpulseS="4200"
+			/>
+		</IonEngine>
+	</Engins>
+</List>
