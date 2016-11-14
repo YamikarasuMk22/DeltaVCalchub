@@ -16,9 +16,9 @@ public class Stage {
 
 	private double stageDryMass;		//ステージ総乾燥重量
 
-	private int stageSpecificImpulseA;	//ステージ総比推力(大気)
+	private int stageIspA;				//ステージ総比推力(大気)
 
-	private int stageSpecificImpulseS;	//ステージ総比推力(真空)
+	private int stageIspS;				//ステージ総比推力(真空)
 
 	public int getStageID() {
 		return stageID;
@@ -60,19 +60,19 @@ public class Stage {
 		this.stageDryMass = stageDryMass;
 	}
 
-	public int getStageSpecificImpulseA() {
-		return stageSpecificImpulseA;
+	public int getStageIspA() {
+		return stageIspA;
 	}
 
-	public void setStageSpecificImpulseA(int stageSpecificImpulseA) {
-		this.stageSpecificImpulseA = stageSpecificImpulseA;
+	public void setStageIspA(int stageIspA) {
+		this.stageIspA = stageIspA;
 	}
 
-	public int getStageSpecificImpulseS() {
-		return stageSpecificImpulseS;
+	public int getStageIspS() {
+		return stageIspS;
 	}
 
-	public void setStageSpecificImpulseS(int stageSpecificImpulseS) {
-		this.stageSpecificImpulseS = stageSpecificImpulseS;
+	public void setStageIspS(int stageIspS) {
+		this.stageIspS = stageIspS;
 	}
 }

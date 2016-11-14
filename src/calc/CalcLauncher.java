@@ -9,10 +9,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,13 +39,13 @@ public class CalcLauncher extends JFrame {
 
 	public static void main(String[] args) {
 
-		mainFrame.setVisible(true);
+		mainFrame.setVisible(false);
 		mainFrame.setSize(800, 400);
 		mainFrame.setLocationRelativeTo(null);
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		//パーツデータロード
-		loadPartList(PART_LIST_DATA);
+		CalcUtil.loadPartList(PART_LIST_DATA, parts);
 
 		for(int i = 0; i < parts.size(); i++) {
 			Part part = parts.get(i);
@@ -57,79 +54,9 @@ public class CalcLauncher extends JFrame {
 
 		//UI描画
 		drawUI(mainFrame);
-		tabbedPane.updateUI();
 
-	}
+		mainFrame.setVisible(true);
 
-	public static void loadPartList(File xmlfile) {
-		//パーツオブジェクト
-		Part part = null;
-		//Partタグ内フラグ
-		boolean tagflag = false;
-		BufferedReader br;
-
-		try {
-			br = new BufferedReader(new FileReader(xmlfile));
-
-			while (br.ready()) {
-				String readed = br.readLine();
-
-				//Partタグ内判定
-				if (tagflag == true && readed.matches(".*/>.*") && readed.length() != 0) {
-					tagflag = false;
-					//パーツオブジェクトをリストに格納
-					parts.add(part);
-				}
-
-				//要素読み込み
-				if (tagflag == true) {
-					readed = readed.replaceAll("\t", "");	//タブ削除
-					readed = readed.replaceAll("\"", "");	//ダブルクオーテーション削除
-
-					//値の右辺と左辺を分ける
-					String[] splitstr = readed.split("=", 0);
-
-					//パーツオブジェクトに代入
-					switch (splitstr[0]){
-						case "ID":
-							part.setPartID(splitstr[1].replaceAll(" ", ""));
-						break;
-						case "Category1":
-							part.setCategory1(splitstr[1].replaceAll(" ", ""));
-						break;
-						case "Category2":
-							part.setCategory2(splitstr[1].replaceAll(" ", ""));
-						break;
-						case "Name":
-							part.setPartName(splitstr[1]);
-						break;
-						case "TotalMass":
-							part.setTotalMass(Double.parseDouble(splitstr[1].replaceAll(" ", "")));
-						break;
-						case "DryMass":
-							part.setDryMass(Double.parseDouble(splitstr[1].replaceAll(" ", "")));
-						break;
-						case "SpecificImpulseA":
-							part.setSpecificImpulseA(Integer.parseInt(splitstr[1].replaceAll(" ", "")));
-						break;
-						case "SpecificImpulseS":
-							part.setSpecificImpulseS(Integer.parseInt(splitstr[1].replaceAll(" ", "")));
-						break;
-					}
-				}
-
-				//Partタグ内判定
-				if (tagflag == false && readed.matches(".*<Part.*") && readed.length() != 0) {
-					tagflag = true;
-					//新しいパーツオブジェクト作成
-					part = new Part();
-				}
-			}
-
-			br.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 
 	public static void drawUI(JFrame mainFrame) {
@@ -258,6 +185,8 @@ public class CalcLauncher extends JFrame {
 
 		setCursorSwitch(partDeleteButton);
 		setCursorSwitch(partSelectButton);
+
+		partSelectButton.addActionListener(new PartSearchButtonListener());
 
 		partPanel.add(partNo);
 		partPanel.add(partDeleteButton);
