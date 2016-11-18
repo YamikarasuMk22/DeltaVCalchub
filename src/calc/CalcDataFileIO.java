@@ -9,7 +9,7 @@ import java.util.List;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 
-public class CalcUtil {
+public class CalcDataFileIO {
 	public static void loadPartList(File xmlfile, List<Part> parts) {
 		//パーツオブジェクト
 		Part part = null;

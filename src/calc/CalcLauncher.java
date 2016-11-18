@@ -45,7 +45,7 @@ public class CalcLauncher extends JFrame {
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		//パーツデータロード
-		CalcUtil.loadPartList(PART_LIST_DATA, parts);
+		CalcDataFileIO.loadPartList(PART_LIST_DATA, parts);
 
 		for(int i = 0; i < parts.size(); i++) {
 			Part part = parts.get(i);

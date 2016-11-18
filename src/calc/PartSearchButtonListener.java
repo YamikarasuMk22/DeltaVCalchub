@@ -81,9 +81,9 @@ public class PartSearchButtonListener implements ActionListener, WindowListener 
 		JTree partTree = null;
 
 		//パーツデータロード
-		CalcUtil.loadPartList(PART_LIST_DATA, parts);
+		CalcDataFileIO.loadPartList(PART_LIST_DATA, parts);
 
-		treeScrollPane.getViewport().setView(CalcUtil.loadTreeList(partTree, parts));
+		treeScrollPane.getViewport().setView(CalcDataFileIO.loadTreeList(partTree, parts));
 		treeScrollPane.setPreferredSize(new Dimension(partSelectFrame.getWidth(), partSelectFrame.getHeight()));
 
 		partSelectFrame.add(treeScrollPane);
