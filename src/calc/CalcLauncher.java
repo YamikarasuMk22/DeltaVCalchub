@@ -186,7 +186,7 @@ public class CalcLauncher extends JFrame {
 		setCursorSwitch(partDeleteButton);
 		setCursorSwitch(partSelectButton);
 
-		partSelectButton.addActionListener(new PartSearchButtonListener());
+		partSelectButton.addActionListener(new SelectPartButtonListener());
 
 		partPanel.add(partNo);
 		partPanel.add(partDeleteButton);

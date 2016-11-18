@@ -13,7 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
 
-public class PartSearchButtonListener implements ActionListener, WindowListener {
+public class SelectPartButtonListener implements ActionListener, WindowListener {
 
 	/** Part List Data File */
 	private static final File PART_LIST_DATA = new File("PartList.xml");
