@@ -7,6 +7,6 @@ public class SelectPartButtonListener implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		PartTreeList.drawUIPartTree();
+		PartTreeList.drawUIPartTree(e.getActionCommand());
 	}
 }

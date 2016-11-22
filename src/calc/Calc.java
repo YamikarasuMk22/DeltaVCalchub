@@ -9,7 +9,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +26,7 @@ import javax.swing.border.LineBorder;
 public class Calc extends JFrame {
 
 	/** Part List Data File */
-	private static final File PART_LIST_DATA = new File("PartList.xml");
+	//private static final File PART_LIST_DATA = new File("PartList.xml");
 
 	static JFrame mainFrame = new JFrame("DeltaVCalc");
 
@@ -44,14 +43,6 @@ public class Calc extends JFrame {
 		mainFrame.setSize(800, 400);
 		mainFrame.setLocationRelativeTo(null);
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		//パーツデータロード
-		CalcDataFileIO.loadPartList(PART_LIST_DATA, parts);
-
-		for(int i = 0; i < parts.size(); i++) {
-			Part part = parts.get(i);
-			System.out.println(part.getPartName());
-		}
 
 		drawStageTab();
 
@@ -78,14 +69,20 @@ public class Calc extends JFrame {
 			infoPanels.add(infoPanel);
 
 			for(int j = 1; j <= 10; j++) {
+				Part part = new Part();
 				JPanel partPanel = new JPanel();
+
+				part.setStageID(i);
+				part.setPartID(j);
+
 				partPanel.setSize(new Dimension(tabPanel.getWidth(), PART_LIST_HEIGHT+6));
 
 				if(j < 10)
-					drawPartList(partPanel, i + "-" + j);
+					part = drawPartList(part, partPanel, i + "-" + j);
 				else
 					partPanel.add(partAddButton);
 
+				parts.add(part);
 				partsPanel.add(partPanel);
 			}
 
@@ -99,7 +96,8 @@ public class Calc extends JFrame {
 	    mainFrame.add(addButton, BorderLayout.SOUTH);
 	}
 
-	public static void drawPartList(JPanel partPanel, String strPartNo) {
+	public static Part drawPartList(Part part, JPanel partPanel, String strPartNo) {
+
 		GridBagLayout layout = new GridBagLayout();
 		partPanel.setLayout(layout);
 		GridBagConstraints gbc = new GridBagConstraints();
@@ -186,7 +184,21 @@ public class Calc extends JFrame {
 		setCursorSwitch(partSelectButton);
 
 		partSelectButton.addActionListener(new SelectPartButtonListener());
+		partSelectButton.setActionCommand(strPartNo);	//(StageID)-(PartID)
 
+		//I/O用UIをPartオブジェクトに格納
+		part.setPartIDLabel(partNo);
+		part.setDeleteButton(partDeleteButton);
+		part.setCategory1Label(Category1);
+		part.setCategory2Label(Category2);
+		part.setPartNameButton(partSelectButton);
+		part.setPartNumberTextField(partNumber);
+		part.setPartTotalMassLabel(TotalMass);
+		part.setPartDryMassLabel(DryMass);
+		part.setPartIspALabel(ispA);
+		part.setPartIspSLabel(ispS);
+
+		//各UI部品をpartPanelに集約
 		partPanel.add(partNo);
 		partPanel.add(partDeleteButton);
 		partPanel.add(Category1);
@@ -201,6 +213,8 @@ public class Calc extends JFrame {
 		partPanel.add(DryMass);
 		partPanel.add(ispA);
 		partPanel.add(ispS);
+
+		return part;
 	}
 
 	public static void setCursorSwitch(JButton button) {

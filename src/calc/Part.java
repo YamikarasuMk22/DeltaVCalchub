@@ -7,7 +7,9 @@ import javax.swing.JTextField;
 public class Part {
 
 	//値
-	private String partID;				//パーツID
+	private int partID;				//パーツ番号
+
+	private int stageID;				//ステージ番号
 
 	private String Category1;			//カテゴリ1
 
@@ -46,12 +48,20 @@ public class Part {
 
 	private JTextField partNumberTextField;	//パーツ搭載数フィールド
 
-	public String getPartID() {
+	public int getPartID() {
 		return partID;
 	}
 
-	public void setPartID(String partID) {
+	public void setPartID(int partID) {
 		this.partID = partID;
+	}
+
+	public int getStageID() {
+		return stageID;
+	}
+
+	public void setStageID(int stageID) {
+		this.stageID = stageID;
 	}
 
 	public String getCategory1() {

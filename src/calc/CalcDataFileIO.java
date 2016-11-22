@@ -40,9 +40,6 @@ public class CalcDataFileIO {
 
 					//パーツオブジェクトに代入
 					switch (splitstr[0]){
-						case "ID":
-							part.setPartID(splitstr[1].replaceAll(" ", ""));
-						break;
 						case "Category1":
 							part.setCategory1(splitstr[1].replaceAll(" ", ""));
 						break;
