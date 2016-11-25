@@ -5,6 +5,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
@@ -80,13 +81,31 @@ public class PartTreeList extends JFrame implements TreeSelectionListener {
 					if(part.getStageID() == stageID && part.getPartID() == partID) {
 						part.setCategory1(listpart.getCategory1());
 						part.setCategory2(listpart.getCategory2());
+						part.setDryMass(listpart.getDryMass());
+						part.setTotalMass(listpart.getTotalMass());
+						part.setIspA(listpart.getIspA());
+						part.setIspS(listpart.getIspS());
 
 						JLabel category1Label = part.getCategory1Label();
 						category1Label.setText(listpart.getCategory1());
 						JLabel category2Label = part.getCategory2Label();
 						category2Label.setText(listpart.getCategory2());
+						JButton partNameButton = part.getPartNameButton();
+						partNameButton.setText(partName);
+						JLabel dryMassLabel = part.getPartDryMassLabel();
+						dryMassLabel.setText(listpart.getDryMass() + "");
+						JLabel totalMassLabel = part.getPartTotalMassLabel();
+						totalMassLabel.setText(listpart.getTotalMass() + "");
+						JLabel ispALabel = part.getPartIspALabel();
+						ispALabel.setText(listpart.getIspA() + "");
+						JLabel ispSLabel = part.getPartIspSLabel();
+						ispSLabel.setText(listpart.getIspS() + "");
+
+						Calc.parts.set(j, part);
 
 						Calc.mainFrame.repaint();
+
+						partTreeFrame.dispose();
 					}
 				}
 			}

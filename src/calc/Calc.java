@@ -25,22 +25,32 @@ import javax.swing.border.LineBorder;
 
 public class Calc extends JFrame {
 
-	/** Part List Data File */
+	/** Part List Data File **/
 	//private static final File PART_LIST_DATA = new File("PartList.xml");
 
+	/** Main UI Frame **/
 	static JFrame mainFrame = new JFrame("DeltaVCalc");
-
+	/** Tab Panel **/
 	static JTabbedPane tabbedPane = new JTabbedPane();
+	/** ????????? **/
 	static List<JPanel> stagePanels = new ArrayList<JPanel>();	//タブごとのステージパネル
 	static List<JPanel> infoPanels = new ArrayList<JPanel>();	//タブごとの情報パネル
 
+	/** Selected Part Objects ArrayList **/
 	static List<Part> parts = new ArrayList<Part>();
 
+	/** UI Size **/
+	private static final int FRAME_WIDTH = 800;
+	private static final int FRAME_HEIGHT = 400;
 	private static final int PART_LIST_HEIGHT = 40;
+
+	/** Default List Size **/
+	private static final int DEFAULT_STAGE_TAB_NUM = 5;
+	private static final int DEFAULT_PART_LIST_NUM = 3;
 
 	public static void drawUI() {
 		mainFrame.setVisible(false);
-		mainFrame.setSize(800, 400);
+		mainFrame.setSize(FRAME_WIDTH, FRAME_HEIGHT);
 		mainFrame.setLocationRelativeTo(null);
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -52,7 +62,7 @@ public class Calc extends JFrame {
 	public static void drawStageTab() {
 		JButton addButton = new JButton("Add Stage");
 
-		for(int i = 1; i <= 5; i++) {
+		for(int i = 1; i <= DEFAULT_STAGE_TAB_NUM; i++) {
 			String tabTitle = "Stage" + i;
 			JPanel tabPanel = new JPanel();
 			JPanel partsPanel = new JPanel();
@@ -68,19 +78,23 @@ public class Calc extends JFrame {
 			stagePanels.add(tabPanel);
 			infoPanels.add(infoPanel);
 
-			for(int j = 1; j <= 10; j++) {
+			for(int j = 1; j <= DEFAULT_PART_LIST_NUM + 1; j++) {
 				Part part = new Part();
 				JPanel partPanel = new JPanel();
 
 				part.setStageID(i);
 				part.setPartID(j);
 
-				partPanel.setSize(new Dimension(tabPanel.getWidth(), PART_LIST_HEIGHT+6));
+				partPanel.setSize(new Dimension(tabPanel.getWidth(), PART_LIST_HEIGHT + 6));
 
-				if(j < 10)
+				if(j < DEFAULT_PART_LIST_NUM + 1) {
 					part = drawPartList(part, partPanel, i + "-" + j);
-				else
+				} else {
 					partPanel.add(partAddButton);
+					setCursorSwitch(partAddButton);
+					partAddButton.addActionListener(new AddPartButtonListener());
+					partAddButton.setActionCommand(i + "");		//StageID
+				}
 
 				parts.add(part);
 				partsPanel.add(partPanel);
@@ -180,11 +194,13 @@ public class Calc extends JFrame {
 		setWidthPercentage(ispA, 8, PART_LIST_HEIGHT/2);
 		layout.setConstraints(ispA, setValueGridBagConstraints(gbc, 8, 1, 1, -1, -1, "BOTH"));
 
-		setCursorSwitch(partDeleteButton);
 		setCursorSwitch(partSelectButton);
-
 		partSelectButton.addActionListener(new SelectPartButtonListener());
 		partSelectButton.setActionCommand(strPartNo);	//(StageID)-(PartID)
+
+		setCursorSwitch(partDeleteButton);
+		partDeleteButton.addActionListener(new DeletePartButtonListener());
+		partDeleteButton.setActionCommand(strPartNo);	//(StageID)-(PartID)
 
 		//I/O用UIをPartオブジェクトに格納
 		part.setPartIDLabel(partNo);
@@ -213,6 +229,11 @@ public class Calc extends JFrame {
 		partPanel.add(DryMass);
 		partPanel.add(ispA);
 		partPanel.add(ispS);
+
+		return part;
+	}
+
+	public static Part drawPartListByArrayList(Part part, JPanel partPanel, String strPartNo) {
 
 		return part;
 	}
