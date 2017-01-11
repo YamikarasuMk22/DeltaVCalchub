@@ -25,7 +25,7 @@ public class Part {
 
 	private int partIspS;				//パーツ比推力(真空)
 
-	private int partNumber;			//パーツ搭載数
+	private int partQuantity;			//パーツ搭載数
 
 	//コンポーネント
 	private JLabel partIDLabel;		//パーツIDラベル
@@ -46,165 +46,249 @@ public class Part {
 
 	private JLabel partIspSLabel;		//パーツ比推力(真空)ラベル
 
-	private JTextField partNumberTextField;	//パーツ搭載数フィールド
+	private JTextField partQuantityTextField;	//パーツ搭載数フィールド
 
+	/*******************
+	 * ID
+	 *******************/
 	public int getPartID() {
 		return partID;
 	}
-
-	public void setPartID(int partID) {
-		this.partID = partID;
-	}
-
 	public int getStageID() {
 		return stageID;
 	}
-
-	public void setStageID(int stageID) {
+	public void setPartID(int stageID, int partID) {
 		this.stageID = stageID;
+		this.partID = partID;
+		if(this.partIDLabel == null) {
+			JLabel partIDLabel = new JLabel();
+			partIDLabel.setText(Integer.toString(stageID) + "-" + Integer.toString(partID));
+			this.partIDLabel = partIDLabel;
+		} else {
+			this.partIDLabel.setText(Integer.toString(stageID) + "-" + Integer.toString(partID));
+		}
 	}
-
-	public String getCategory1() {
-		return Category1;
-	}
-
-	public void setCategory1(String category1) {
-		Category1 = category1;
-	}
-
-	public String getCategory2() {
-		return Category2;
-	}
-
-	public void setCategory2(String category2) {
-		Category2 = category2;
-	}
-
-	public String getPartName() {
-		return partName;
-	}
-
-	public void setPartName(String partName) {
-		this.partName = partName;
-	}
-
-	public double getTotalMass() {
-		return partTotalMass;
-	}
-
-	public void setTotalMass(double d) {
-		this.partTotalMass = d;
-	}
-
-	public double getDryMass() {
-		return partDryMass;
-	}
-
-	public void setDryMass(double dryMass) {
-		this.partDryMass = dryMass;
-	}
-
-	public int getIspA() {
-		return partIspA;
-	}
-
-	public void setIspA(int IspA) {
-		this.partIspA = IspA;
-	}
-
-	public int getIspS() {
-		return partIspS;
-	}
-
-	public void setIspS(int IspS) {
-		this.partIspS = IspS;
-	}
-
-	public int getNumber() {
-		return partNumber;
-	}
-
-	public void setNumber(int number) {
-		this.partNumber = number;
-	}
-
 	public JLabel getPartIDLabel() {
 		return partIDLabel;
 	}
-
-	public void setPartIDLabel(JLabel partIDLabel) {
+	public void setPartIDLabel(int stageID, int partID, JLabel partIDLabel) {
+		this.stageID = stageID;
+		this.partID = partID;
 		this.partIDLabel = partIDLabel;
+		this.partIDLabel.setText(Integer.toString(stageID) + "-" + Integer.toString(partID));
 	}
 
+	/*******************
+	 * DeleteButton
+	 *******************/
 	public JButton getDeleteButton() {
 		return deleteButton;
 	}
-
 	public void setDeleteButton(JButton deleteButton) {
 		this.deleteButton = deleteButton;
 	}
+	public void setDeleteButtonStr(String str, JButton deleteButton) {
+		this.deleteButton = deleteButton;
+		this.deleteButton.setText(str);
+	}
 
+	/*******************
+	 * Category1
+	 *******************/
+	public String getCategory1() {
+		return Category1;
+	}
+	public void setCategory1(String category1) {
+		Category1 = category1;
+		if(this.Category1Label == null) {
+			JLabel Category1Label = new JLabel();
+			Category1Label.setText(category1);
+			this.Category1Label = Category1Label;
+		} else {
+			this.Category1Label.setText(category1);
+		}
+	}
 	public JLabel getCategory1Label() {
 		return Category1Label;
 	}
-
-	public void setCategory1Label(JLabel category1Label) {
+	public void setCategory1Label(String category1, JLabel category1Label) {
+		Category1 = category1;
 		Category1Label = category1Label;
+		this.Category1Label.setText(category1);
 	}
 
+	/*******************
+	 * Category2
+	 *******************/
+	public String getCategory2() {
+		return Category2;
+	}
+	public void setCategory2(String category2) {
+		Category2 = category2;
+		if(this.Category2Label == null) {
+			JLabel Category2Label = new JLabel();
+			Category2Label.setText(category2);
+			this.Category2Label = Category2Label;
+		} else {
+			this.Category2Label.setText(category2);
+		}
+	}
 	public JLabel getCategory2Label() {
 		return Category2Label;
 	}
-
-	public void setCategory2Label(JLabel category2Label) {
+	public void setCategory2Label(String category2, JLabel category2Label) {
+		Category2 = category2;
 		Category2Label = category2Label;
+		this.Category2Label.setText(category2);
 	}
 
+	/*******************
+	 * PartName
+	 *******************/
+	public String getPartName() {
+		return partName;
+	}
+	public void setPartName(String partName) {
+		this.partName = partName;
+		if(this.partNameButton == null) {
+			JButton partNameButton = new JButton();
+			partNameButton.setText(partName);
+			this.partNameButton = partNameButton;
+		} else {
+			this.partNameButton.setText(partName);
+		}
+	}
 	public JButton getPartNameButton() {
 		return partNameButton;
 	}
-
-	public void setPartNameButton(JButton partNameButton) {
+	public void setPartNameButton(String partName, JButton partNameButton) {
+		this.partName = partName;
 		this.partNameButton = partNameButton;
+		this.partNameButton.setText(partName);
 	}
 
+	/*******************
+	 * TotalMass
+	 *******************/
+	public double getTotalMass() {
+		return partTotalMass;
+	}
+	public void setTotalMass(double partTotalMass) {
+		this.partTotalMass = partTotalMass;
+		if(this.partTotalMassLabel == null) {
+			JLabel partTotalMassLabel = new JLabel();
+			partTotalMassLabel.setText(Double.toString(partTotalMass));
+			this.partTotalMassLabel = partTotalMassLabel;
+		} else {
+			this.partTotalMassLabel.setText(Double.toString(partTotalMass));
+		}
+	}
 	public JLabel getPartTotalMassLabel() {
 		return partTotalMassLabel;
 	}
-
-	public void setPartTotalMassLabel(JLabel partTotalMassLabel) {
+	public void setPartTotalMassLabel(double partTotalMass, JLabel partTotalMassLabel) {
+		this.partTotalMass = partTotalMass;
 		this.partTotalMassLabel = partTotalMassLabel;
+		this.partTotalMassLabel.setText(Double.toString(partTotalMass));
 	}
 
+	/*******************
+	 * DryMass
+	 *******************/
+	public double getDryMass() {
+		return partDryMass;
+	}
+	public void setDryMass(double dryMass) {
+		this.partDryMass = dryMass;
+		if(this.partDryMassLabel == null) {
+			JLabel partDryMassLabel = new JLabel();
+			partDryMassLabel.setText(Double.toString(dryMass));
+			this.partDryMassLabel = partDryMassLabel;
+		} else {
+			this.partDryMassLabel.setText(Double.toString(dryMass));
+		}
+	}
 	public JLabel getPartDryMassLabel() {
 		return partDryMassLabel;
 	}
-
-	public void setPartDryMassLabel(JLabel partDryMassLabel) {
+	public void setPartDryMassLabel(double dryMass, JLabel partDryMassLabel) {
+		this.partDryMass = dryMass;
 		this.partDryMassLabel = partDryMassLabel;
+		this.partDryMassLabel.setText(Double.toString(dryMass));
 	}
 
+	/*******************
+	 * IspA
+	 *******************/
+	public int getIspA() {
+		return partIspA;
+	}
+	public void setIspA(int IspA) {
+		this.partIspA = IspA;
+		if(this.partIspALabel == null) {
+			JLabel partIspALabel = new JLabel();
+			partIspALabel.setText(Integer.toString(IspA));
+			this.partIspALabel = partIspALabel;
+		} else {
+			this.partIspALabel.setText(Integer.toString(IspA));
+		}
+	}
 	public JLabel getPartIspALabel() {
 		return partIspALabel;
 	}
-
-	public void setPartIspALabel(JLabel partIspALabel) {
+	public void setPartIspALabel(int IspA, JLabel partIspALabel) {
+		this.partIspA = IspA;
 		this.partIspALabel = partIspALabel;
+		this.partIspALabel.setText(Integer.toString(IspA));
 	}
 
+	/*******************
+	 * IspS
+	 *******************/
+	public int getIspS() {
+		return partIspS;
+	}
+	public void setIspS(int IspS) {
+		this.partIspS = IspS;
+		if(this.partIspSLabel == null) {
+			JLabel partIspSLabel = new JLabel();
+			partIspSLabel.setText(Integer.toString(IspS));
+			this.partIspSLabel = partIspSLabel;
+		} else {
+			this.partIspSLabel.setText(Integer.toString(IspS));
+		}
+	}
 	public JLabel getPartIspSLabel() {
 		return partIspSLabel;
 	}
-
-	public void setPartIspSLabel(JLabel partIspSLabel) {
+	public void setPartIspSLabel(int IspS, JLabel partIspSLabel) {
+		this.partIspS = IspS;
 		this.partIspSLabel = partIspSLabel;
+		this.partIspSLabel.setText(Integer.toString(IspS));
 	}
 
-	public JTextField getPartNumberTextField() {
-		return partNumberTextField;
+	/*******************
+	 * PartQuantity
+	 *******************/
+	public int getQuantity() {
+		return partQuantity;
 	}
-
-	public void setPartNumberTextField(JTextField partNumberTextField) {
-		this.partNumberTextField = partNumberTextField;
+	public void setQuantity(int quantity) {
+		this.partQuantity = quantity;
+		if(this.partQuantityTextField == null) {
+			JTextField partQuantityTextField = new JTextField();
+			partQuantityTextField.setText(Integer.toString(quantity));
+			this.partQuantityTextField = partQuantityTextField;
+		} else {
+			this.partQuantityTextField.setText(Integer.toString(quantity));
+		}
+	}
+	public JTextField getPartQuantityTextField() {
+		return partQuantityTextField;
+	}
+	public void setPartQuantityTextField(int quantity, JTextField partQuantityTextField) {
+		this.partQuantity = quantity;
+		this.partQuantityTextField = partQuantityTextField;
+		this.partQuantityTextField.setText(Integer.toString(quantity));
 	}
 }

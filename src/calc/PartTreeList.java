@@ -5,9 +5,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.event.TreeSelectionEvent;
@@ -20,7 +18,7 @@ public class PartTreeList extends JFrame implements TreeSelectionListener {
 	private static final File PART_LIST_DATA = new File("PartList.xml");
 
 	static JFrame partTreeFrame = null;
-	static List<Part> partTreeList = null;
+	static List<TreePart> partTreeList = null;
 	static JTree partTree = null;
 
 	static int stageID = 0;
@@ -48,7 +46,7 @@ public class PartTreeList extends JFrame implements TreeSelectionListener {
 	public static void loadPartsTreeList() {
 		JScrollPane treeScrollPane = new JScrollPane();
 
-		partTreeList = new ArrayList<Part>();
+		partTreeList = new ArrayList<TreePart>();
 
 		// パーツデータロード
 		CalcDataFileIO.loadPartList(PART_LIST_DATA, partTreeList);
@@ -71,43 +69,24 @@ public class PartTreeList extends JFrame implements TreeSelectionListener {
 		String partName = (String) node.getUserObject();
 
 		for (int i = 0; i < partTreeList.size(); i++) {
-			Part listpart = partTreeList.get(i);
+			TreePart listpart = partTreeList.get(i);
 
 			if(listpart.getPartName().equals(partName)) {
 
-				for (int j = 0; j < Calc.parts.size(); j++) {
-					Part part = Calc.parts.get(j);
+				Stage stage = Calc.stages.get(stageID-1);
+				List<Part> parts = stage.getParts();
+				Part part = parts.get(partID-1);
 
-					if(part.getStageID() == stageID && part.getPartID() == partID) {
-						part.setCategory1(listpart.getCategory1());
-						part.setCategory2(listpart.getCategory2());
-						part.setDryMass(listpart.getDryMass());
-						part.setTotalMass(listpart.getTotalMass());
-						part.setIspA(listpart.getIspA());
-						part.setIspS(listpart.getIspS());
+				part.setCategory1(listpart.getCategory1());
+				part.setCategory2(listpart.getCategory2());
+				part.setDryMass(listpart.getPartDryMass());
+				part.setTotalMass(listpart.getPartTotalMass());
+				part.setIspA(listpart.getPartIspA());
+				part.setIspS(listpart.getPartIspS());
 
-						JLabel category1Label = part.getCategory1Label();
-						category1Label.setText(listpart.getCategory1());
-						JLabel category2Label = part.getCategory2Label();
-						category2Label.setText(listpart.getCategory2());
-						JButton partNameButton = part.getPartNameButton();
-						partNameButton.setText(partName);
-						JLabel dryMassLabel = part.getPartDryMassLabel();
-						dryMassLabel.setText(listpart.getDryMass() + "");
-						JLabel totalMassLabel = part.getPartTotalMassLabel();
-						totalMassLabel.setText(listpart.getTotalMass() + "");
-						JLabel ispALabel = part.getPartIspALabel();
-						ispALabel.setText(listpart.getIspA() + "");
-						JLabel ispSLabel = part.getPartIspSLabel();
-						ispSLabel.setText(listpart.getIspS() + "");
+				Calc.mainFrame.repaint();
 
-						Calc.parts.set(j, part);
-
-						Calc.mainFrame.repaint();
-
-						partTreeFrame.dispose();
-					}
-				}
+				partTreeFrame.dispose();
 			}
 		}
 	}

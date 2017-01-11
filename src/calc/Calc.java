@@ -30,14 +30,12 @@ public class Calc extends JFrame {
 
 	/** Main UI Frame **/
 	static JFrame mainFrame = new JFrame("DeltaVCalc");
-	/** Tab Panel **/
-	static JTabbedPane tabbedPane = new JTabbedPane();
-	/** ????????? **/
-	static List<JPanel> stagePanels = new ArrayList<JPanel>();	//タブごとのステージパネル
-	static List<JPanel> infoPanels = new ArrayList<JPanel>();	//タブごとの情報パネル
 
-	/** Selected Part Objects ArrayList **/
-	static List<Part> parts = new ArrayList<Part>();
+	/** Stage Objects ArrayList **/
+	static List<Stage> stages = new ArrayList<Stage>();
+
+	/** Stage TabbedPane **/
+	static JTabbedPane tabbedPane = new JTabbedPane();
 
 	/** UI Size **/
 	private static final int FRAME_WIDTH = 800;
@@ -46,7 +44,6 @@ public class Calc extends JFrame {
 
 	/** Default List Size **/
 	private static final int DEFAULT_STAGE_TAB_NUM = 5;
-	private static final int DEFAULT_PART_LIST_NUM = 3;
 
 	public static void drawUI() {
 		mainFrame.setVisible(false);
@@ -63,60 +60,73 @@ public class Calc extends JFrame {
 		JButton addButton = new JButton("Add Stage");
 
 		for(int i = 1; i <= DEFAULT_STAGE_TAB_NUM; i++) {
-			String tabTitle = "Stage" + i;
-			JPanel tabPanel = new JPanel();
-			JPanel partsPanel = new JPanel();
-			JPanel infoPanel = new JPanel();
 
-			partsPanel.setLayout(new BoxLayout(partsPanel, BoxLayout.Y_AXIS));
+			addStage(i, tabbedPane);
 
-			JScrollPane scrollPartsPanel = new JScrollPane(tabPanel);
-			scrollPartsPanel.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-
-			JButton partAddButton = new JButton("Add Part");
-
-			stagePanels.add(tabPanel);
-			infoPanels.add(infoPanel);
-
-			for(int j = 1; j <= DEFAULT_PART_LIST_NUM + 1; j++) {
-				Part part = new Part();
-				JPanel partPanel = new JPanel();
-
-				part.setStageID(i);
-				part.setPartID(j);
-
-				partPanel.setSize(new Dimension(tabPanel.getWidth(), PART_LIST_HEIGHT + 6));
-
-				if(j < DEFAULT_PART_LIST_NUM + 1) {
-					part = drawPartList(part, partPanel, i + "-" + j);
-				} else {
-					partPanel.add(partAddButton);
-					setCursorSwitch(partAddButton);
-					partAddButton.addActionListener(new AddPartButtonListener());
-					partAddButton.setActionCommand(i + "");		//StageID
-				}
-
-				parts.add(part);
-				partsPanel.add(partPanel);
-			}
-
-			tabPanel.add(partsPanel);
-
-			//tabPanel.add(infoPanel);
-
-			tabbedPane.addTab(tabTitle, scrollPartsPanel);
 		}
-	    mainFrame.add(tabbedPane, BorderLayout.CENTER);
+		mainFrame.add(tabbedPane, BorderLayout.CENTER);
 	    mainFrame.add(addButton, BorderLayout.SOUTH);
 	}
 
-	public static Part drawPartList(Part part, JPanel partPanel, String strPartNo) {
+	public static void addStage(int stageID, JTabbedPane tabbedPane) {
+		Stage stage = new Stage();
+
+		String tabTitle = "Stage" + stageID;
+		JPanel tabPanel = new JPanel();
+		JPanel partsPanel = new JPanel();		//partPanelをaddするPanel
+
+		partsPanel.setLayout(new BoxLayout(partsPanel, BoxLayout.Y_AXIS));
+
+		JScrollPane scrollPartsPanel = new JScrollPane(tabPanel);
+		scrollPartsPanel.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+
+		JPanel partPanel = new JPanel();
+		partPanel.setSize(new Dimension(tabPanel.getWidth(), PART_LIST_HEIGHT + 6));
+
+		//初期値Partを追加
+		Part part = new Part();
+		part = addPart(stageID, 1, partPanel);
+		List<Part> parts = new ArrayList<Part>();
+		parts.add(part);
+		partsPanel.add(partPanel);
+
+		//PartAddButtonを追加
+		JButton partAddButton = new JButton("Add Part");
+		JPanel partAddButtonPanel = new JPanel();
+		partAddButtonPanel.setSize(new Dimension(tabPanel.getWidth(), PART_LIST_HEIGHT + 6));
+		partAddButtonPanel.add(partAddButton);
+		setCursorSwitch(partAddButton);
+		partAddButton.addActionListener(new AddPartButtonListener());
+		partAddButton.setActionCommand(Integer.toString(stageID));		//StageID
+		partsPanel.add(partAddButtonPanel);
+
+		//Stageオブジェクト登録
+		stage.setStageID(stageID);
+		stage.setStageTabPane(tabbedPane);
+		stage.setParts(parts);
+		stage.setPartAddButton(partAddButton);
+		stage.setPartAddButtonPanel(partAddButtonPanel);
+		stages.add(stage);
+
+		tabPanel.add(partsPanel);
+		tabbedPane.addTab(tabTitle, scrollPartsPanel);
+	}
+
+	public static Part addPart(int stageID, int partID, JPanel partPanel) {
+		Part part = new Part();
+
+		//2番目移行のパーツの場合、PartAddButtonを一旦消してからaddする
+		if(partID >= 2) {
+
+		}
 
 		GridBagLayout layout = new GridBagLayout();
 		partPanel.setLayout(layout);
 		GridBagConstraints gbc = new GridBagConstraints();
 
-		JLabel partNo = new JLabel(strPartNo);
+		String patrNoStr = Integer.toString(stageID) + "-" + Integer.toString(partID);
+
+		JLabel partNo = new JLabel();
 		partNo.setHorizontalAlignment(JLabel.CENTER);
 		partNo.setBorder(new LineBorder(Color.black));
 		setWidthPercentage(partNo, 3, PART_LIST_HEIGHT);
@@ -127,57 +137,65 @@ public class Calc extends JFrame {
 		setWidthPercentage(partDeleteButton, 5, PART_LIST_HEIGHT);
 		layout.setConstraints(partDeleteButton, setValueGridBagConstraints(gbc, 1, 0, 2, -1, -1, "BOTH"));
 
-		JLabel Category1 = new JLabel("Category1");
-		Category1.setBorder(new LineBorder(Color.black));
-		setWidthPercentage(Category1, 12, PART_LIST_HEIGHT/2);
-		layout.setConstraints(Category1, setValueGridBagConstraints(gbc, 2, 0, 1, -1, -1, "BOTH"));
+		String category1Str = "Category1";
+		JLabel category1 = new JLabel();
+		category1.setBorder(new LineBorder(Color.black));
+		setWidthPercentage(category1, 12, PART_LIST_HEIGHT/2);
+		layout.setConstraints(category1, setValueGridBagConstraints(gbc, 2, 0, 1, -1, -1, "BOTH"));
 
-		JLabel Category2 = new JLabel("Category2");
-		Category2.setBorder(new LineBorder(Color.black));
-		setWidthPercentage(Category2, 12, PART_LIST_HEIGHT/2);
-		layout.setConstraints(Category2, setValueGridBagConstraints(gbc, 2, 1, 1, -1, -1, "BOTH"));
+		String category2Str = "Category2";
+		JLabel category2 = new JLabel();
+		category2.setBorder(new LineBorder(Color.black));
+		setWidthPercentage(category2, 12, PART_LIST_HEIGHT/2);
+		layout.setConstraints(category2, setValueGridBagConstraints(gbc, 2, 1, 1, -1, -1, "BOTH"));
 
-		JButton partSelectButton = new JButton("Select Part");
+		String partSelectButtonStr = "Select Part";
+		JButton partSelectButton = new JButton();
 		partSelectButton.setBorder(new LineBorder(Color.black));
 		setWidthPercentage(partSelectButton, 35, PART_LIST_HEIGHT);
 		layout.setConstraints(partSelectButton, setValueGridBagConstraints(gbc, 3, 0, 2, -1, -1, "BOTH"));
 
-		JPanel partNumberPanel = new JPanel();
-		JTextField partNumber = new JTextField("0", 3);
-		partNumber.setHorizontalAlignment(JLabel.RIGHT);
-		partNumberPanel.setBorder(new LineBorder(Color.black));
-		setWidthPercentage(partNumberPanel, 5, PART_LIST_HEIGHT);
-		partNumberPanel.add(partNumber);
-		layout.setConstraints(partNumberPanel, setValueGridBagConstraints(gbc, 4, 0, 2, -1, -1, "BOTH"));
+		int partQuantityInt = 0;
+		JPanel partQuantityPanel = new JPanel();
+		JTextField partQuantity = new JTextField();
+		partQuantity.setPreferredSize(new Dimension(30, 25));
+		partQuantity.setHorizontalAlignment(JLabel.RIGHT);
+		partQuantityPanel.setBorder(new LineBorder(Color.black));
+		setWidthPercentage(partQuantityPanel, 5, PART_LIST_HEIGHT);
+		partQuantityPanel.add(partQuantity);
+		layout.setConstraints(partQuantityPanel, setValueGridBagConstraints(gbc, 4, 0, 2, -1, -1, "BOTH"));
 
-		JLabel TotalMassLabel = new JLabel("TotalMass");
-		TotalMassLabel.setBorder(new LineBorder(Color.black));
-		setWidthPercentage(TotalMassLabel, 8, PART_LIST_HEIGHT/2);
-		layout.setConstraints(TotalMassLabel, setValueGridBagConstraints(gbc, 5, 0, 1, -1, -1, "BOTH"));
+		JLabel totalMassLabel = new JLabel("TotalMass");
+		totalMassLabel.setBorder(new LineBorder(Color.black));
+		setWidthPercentage(totalMassLabel, 8, PART_LIST_HEIGHT/2);
+		layout.setConstraints(totalMassLabel, setValueGridBagConstraints(gbc, 5, 0, 1, -1, -1, "BOTH"));
 
-		JLabel TotalMass = new JLabel("0.00");
-		TotalMass.setHorizontalAlignment(JLabel.RIGHT);
-		TotalMass.setBorder(new LineBorder(Color.black));
-		setWidthPercentage(TotalMass, 8, PART_LIST_HEIGHT/2);
-		layout.setConstraints(TotalMass, setValueGridBagConstraints(gbc, 5, 1, 1, -1, -1, "BOTH"));
+		double totalMassDbl = 0.00;
+		JLabel totalMass = new JLabel();
+		totalMass.setHorizontalAlignment(JLabel.RIGHT);
+		totalMass.setBorder(new LineBorder(Color.black));
+		setWidthPercentage(totalMass, 8, PART_LIST_HEIGHT/2);
+		layout.setConstraints(totalMass, setValueGridBagConstraints(gbc, 5, 1, 1, -1, -1, "BOTH"));
 
-		JLabel DryMassLabel = new JLabel("DryMass");
-		DryMassLabel.setBorder(new LineBorder(Color.black));
-		setWidthPercentage(DryMassLabel, 8, PART_LIST_HEIGHT/2);
-		layout.setConstraints(DryMassLabel, setValueGridBagConstraints(gbc, 6, 0, 1, -1, -1, "BOTH"));
+		JLabel dryMassLabel = new JLabel("DryMass");
+		dryMassLabel.setBorder(new LineBorder(Color.black));
+		setWidthPercentage(dryMassLabel, 8, PART_LIST_HEIGHT/2);
+		layout.setConstraints(dryMassLabel, setValueGridBagConstraints(gbc, 6, 0, 1, -1, -1, "BOTH"));
 
-		JLabel DryMass = new JLabel("0.00");
-		DryMass.setHorizontalAlignment(JLabel.RIGHT);
-		DryMass.setBorder(new LineBorder(Color.black));
-		setWidthPercentage(DryMass, 8, PART_LIST_HEIGHT/2);
-		layout.setConstraints(DryMass, setValueGridBagConstraints(gbc, 6, 1, 1, -1, -1, "BOTH"));
+		double dryMassDbl = 0.00;
+		JLabel dryMass = new JLabel();
+		dryMass.setHorizontalAlignment(JLabel.RIGHT);
+		dryMass.setBorder(new LineBorder(Color.black));
+		setWidthPercentage(dryMass, 8, PART_LIST_HEIGHT/2);
+		layout.setConstraints(dryMass, setValueGridBagConstraints(gbc, 6, 1, 1, -1, -1, "BOTH"));
 
 		JLabel ispSLabel = new JLabel("Isp(Space)");
 		ispSLabel.setBorder(new LineBorder(Color.black));
 		setWidthPercentage(ispSLabel, 8, PART_LIST_HEIGHT/2);
 		layout.setConstraints(ispSLabel, setValueGridBagConstraints(gbc, 7, 0, 1, -1, -1, "BOTH"));
 
-		JLabel ispS = new JLabel("0");
+		int ispSInt = 0;
+		JLabel ispS = new JLabel();
 		ispS.setHorizontalAlignment(JLabel.RIGHT);
 		ispS.setBorder(new LineBorder(Color.black));
 		setWidthPercentage(ispS, 8, PART_LIST_HEIGHT/2);
@@ -188,7 +206,8 @@ public class Calc extends JFrame {
 		setWidthPercentage(ispALabel, 8, PART_LIST_HEIGHT/2);
 		layout.setConstraints(ispALabel, setValueGridBagConstraints(gbc, 8, 0, 1, -1, -1, "BOTH"));
 
-		JLabel ispA = new JLabel("0");
+		int ispAInt = 0;
+		JLabel ispA = new JLabel();
 		ispA.setHorizontalAlignment(JLabel.RIGHT);
 		ispA.setBorder(new LineBorder(Color.black));
 		setWidthPercentage(ispA, 8, PART_LIST_HEIGHT/2);
@@ -196,37 +215,37 @@ public class Calc extends JFrame {
 
 		setCursorSwitch(partSelectButton);
 		partSelectButton.addActionListener(new SelectPartButtonListener());
-		partSelectButton.setActionCommand(strPartNo);	//(StageID)-(PartID)
+		partSelectButton.setActionCommand(patrNoStr);	//(StageID)-(PartID)
 
 		setCursorSwitch(partDeleteButton);
 		partDeleteButton.addActionListener(new DeletePartButtonListener());
-		partDeleteButton.setActionCommand(strPartNo);	//(StageID)-(PartID)
+		partDeleteButton.setActionCommand(patrNoStr);	//(StageID)-(PartID)
 
 		//I/O用UIをPartオブジェクトに格納
-		part.setPartIDLabel(partNo);
+		part.setPartIDLabel(stageID, partID ,partNo);
 		part.setDeleteButton(partDeleteButton);
-		part.setCategory1Label(Category1);
-		part.setCategory2Label(Category2);
-		part.setPartNameButton(partSelectButton);
-		part.setPartNumberTextField(partNumber);
-		part.setPartTotalMassLabel(TotalMass);
-		part.setPartDryMassLabel(DryMass);
-		part.setPartIspALabel(ispA);
-		part.setPartIspSLabel(ispS);
+		part.setCategory1Label(category1Str, category1);
+		part.setCategory2Label(category2Str, category2);
+		part.setPartNameButton(partSelectButtonStr, partSelectButton);
+		part.setPartQuantityTextField(partQuantityInt, partQuantity);
+		part.setPartTotalMassLabel(totalMassDbl, totalMass);
+		part.setPartDryMassLabel(dryMassDbl, dryMass);
+		part.setPartIspALabel(ispSInt, ispA);
+		part.setPartIspSLabel(ispAInt, ispS);
 
 		//各UI部品をpartPanelに集約
 		partPanel.add(partNo);
 		partPanel.add(partDeleteButton);
-		partPanel.add(Category1);
-		partPanel.add(Category2);
+		partPanel.add(category1);
+		partPanel.add(category2);
 		partPanel.add(partSelectButton);
-		partPanel.add(partNumberPanel);
-		partPanel.add(TotalMassLabel);
-		partPanel.add(DryMassLabel);
+		partPanel.add(partQuantityPanel);
+		partPanel.add(totalMassLabel);
+		partPanel.add(dryMassLabel);
 		partPanel.add(ispALabel);
 		partPanel.add(ispSLabel);
-		partPanel.add(TotalMass);
-		partPanel.add(DryMass);
+		partPanel.add(totalMass);
+		partPanel.add(dryMass);
 		partPanel.add(ispA);
 		partPanel.add(ispS);
 

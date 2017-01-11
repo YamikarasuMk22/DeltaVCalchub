@@ -10,9 +10,9 @@ import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 public class CalcDataFileIO {
-	public static void loadPartList(File xmlfile, List<Part> parts) {
+	public static void loadPartList(File xmlfile, List<TreePart> partTreeList) {
 		//パーツオブジェクト
-		Part part = null;
+		TreePart part = null;
 		//Partタグ内フラグ
 		boolean tagflag = false;
 		BufferedReader br;
@@ -27,7 +27,7 @@ public class CalcDataFileIO {
 				if (tagflag == true && readed.matches(".*/>.*") && readed.length() != 0) {
 					tagflag = false;
 					//パーツオブジェクトをリストに格納
-					parts.add(part);
+					partTreeList.add(part);
 				}
 
 				//要素読み込み
@@ -50,16 +50,16 @@ public class CalcDataFileIO {
 							part.setPartName(splitstr[1]);
 						break;
 						case "TotalMass":
-							part.setTotalMass(Double.parseDouble(splitstr[1].replaceAll(" ", "")));
+							part.setPartTotalMass(Double.parseDouble(splitstr[1].replaceAll(" ", "")));
 						break;
 						case "DryMass":
-							part.setDryMass(Double.parseDouble(splitstr[1].replaceAll(" ", "")));
+							part.setPartDryMass(Double.parseDouble(splitstr[1].replaceAll(" ", "")));
 						break;
 						case "IspA":
-							part.setIspA(Integer.parseInt(splitstr[1].replaceAll(" ", "")));
+							part.setPartIspA(Integer.parseInt(splitstr[1].replaceAll(" ", "")));
 						break;
 						case "IspS":
-							part.setIspS(Integer.parseInt(splitstr[1].replaceAll(" ", "")));
+							part.setPartIspS(Integer.parseInt(splitstr[1].replaceAll(" ", "")));
 						break;
 					}
 				}
@@ -68,7 +68,7 @@ public class CalcDataFileIO {
 				if (tagflag == false && readed.matches(".*<Part.*") && readed.length() != 0) {
 					tagflag = true;
 					//新しいパーツオブジェクト作成
-					part = new Part();
+					part = new TreePart();
 				}
 			}
 
@@ -78,7 +78,7 @@ public class CalcDataFileIO {
 		}
 	}
 
-	public static JTree loadTreeList(JTree partTree, List<Part> parts) {
+	public static JTree loadTreeList(JTree partTree, List<TreePart> partTreeList) {
 		DefaultMutableTreeNode partListRoot = new DefaultMutableTreeNode("Parts");
 		DefaultMutableTreeNode nodeCategory1 = null;
 		DefaultMutableTreeNode nodeCategory2 = null;
@@ -90,8 +90,8 @@ public class CalcDataFileIO {
 		String category2str = "";
 		String partName = "";
 
-		for(int i = 0; i < parts.size(); i++) {
-			Part part = parts.get(i);
+		for(int i = 0; i < partTreeList.size(); i++) {
+			TreePart part = partTreeList.get(i);
 			tmpstr1 = part.getCategory1();
 			tmpstr2 = part.getCategory2();
 
